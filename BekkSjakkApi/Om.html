@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Om BekkSjakkApi</title>
+    <style>
+        body {
+            font-family: Helvetica, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        pre {
+            padding: 0.5rem;
+            background-color: #e3e9f2;
+        }
+        img {
+            display: block;
+            margin: 1em 0;
+        }
+    </style>
+</head>
+<body>
+<h1>BekkSjakkApi</h1>
+    
+<h2>Ressursar</h2>
+<p>Ressursar som er eintal (f.eks. "Bekker") kan hentast med GET og lagrast med POST. Ressursar som er fleirtal kan berre hentast med GET.</p>
+<ul>
+    <li>Bekker</li>
+    <li>Bekkere</li>
+    <li>Parti</li>
+    <li>Partier</li>
+</ul>
+    
+<h2>API-nøkkel</h2>
+<p>For å bruke API-et i Azure må ein inkludere ein API-nøkkel i alle førespurnader. Den skal sendast med som ein query-parameter med namnet "code". Sjå eksempla lengre nede på sida.</p>
+<p>Om ein køyrer API-et lokalt (f.eks. under utvikling) er det ikkje naudsynt å ha med denne nøkkelen.</p>
+    
+<h2>Resultatkode</h2>
+<p>Resultatet av eit parti er definert av enum-typen som vist under. I API-et forventar vi å få ein <strong>streng som inneheld namnet</strong> til enum-verdien.</p>
+<pre>
+public enum PartiResultat
+{
+    VinnerHvit = 1,
+    VinnerSvart = 2,
+    Uavgjort = 3
+}
+</pre>
+    
+<h2>Elo-berekning</h2>
+Kvar gong ein legg inn eit nytt parti får spelarane i partiet oppdatert Elo-ratingane sine. Formelen som er brukt er:
+
+<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/09a11111b433582eccbb22c740486264549d1129" style="width:25.973ex; height:3.009ex;" alt="{\displaystyle R_{A}^{\prime }=R_{A}+K(S_{A}-E_{A}).}">
+
+<i>K</i> er satt til 32. <i>S<sub>a</sub></i> er 1 for spelaren som vann og 0 for spelaren som tapte, eller 0.5 for begge spelarar dersom det blei uavgjort.
+    
+<h2>Eksempel på GET</h2>
+<ul>
+    <li><a target="_blank" href="https://bekksjakkapi.azurewebsites.net/api/Bekker?name=Peder&code=APIKEY">https://bekksjakkapi.azurewebsites.net/api/Bekker?name=Peder&code=APIKEY</a></li>
+    <li><a target="_blank" href="https://bekksjakkapi.azurewebsites.net/api/Bekker?id=1&code=APIKEY">https://bekksjakkapi.azurewebsites.net/api/Bekker?id=1&code=APIKEY</a></li>
+    <li><a target="_blank" href="https://bekksjakkapi.azurewebsites.net/api/Bekkere?code=APIKEY">https://bekksjakkapi.azurewebsites.net/api/Bekkere?code=APIKEY</a></li>
+    <li><a target="_blank" href="https://bekksjakkapi.azurewebsites.net/api/Parti?id=1&code=APIKEY">https://bekksjakkapi.azurewebsites.net/api/Parti?id=1&code=APIKEY</a></li>
+    <li><a target="_blank" href="https://bekksjakkapi.azurewebsites.net/api/Partier?code=APIKEY">https://bekksjakkapi.azurewebsites.net/api/Partier?code=APIKEY</a></li>
+</ul>
+
+<h2>Eksempel på POST</h2>
+<h3>Opprett ny bekker/bruker</h3>
+<pre>
+POST /api/Bekker?code=APIKEY HTTP/1.1
+HOST: bekksjakkapi.azurewebsites.net
+content-type: application/json
+content-length: 16
+
+{"navn":"Peder"}
+</pre>
+
+<h3>Opprett nytt sjakkparti</h3>
+<pre>
+POST /api/Parti?code=APIKEY HTTP/1.1
+HOST: bekksjakkapi.azurewebsites.net
+content-type: application/json
+content-length: 104
+
+{"hvitId":1,"svartId":4,"dato":"2017-11-25T19:44:51.3487716+00:00","resultat":"VinnerHvit","pgn":"Kake bake smake"}
+</pre>
+</body>
+</html>
