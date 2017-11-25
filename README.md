@@ -6,7 +6,7 @@ Tenarlaust API som nyttar Azure Functions.
 
 API-et køyrer på URL-en [https://bekksjakkapi.azurewebsites.net](https://bekksjakkapi.azurewebsites.net).
 
-Informasjonside om korleis API-et fungerer [https://bekksjakkapi.azurewebsites.net/api/Om](finst her).
+Informasjonside om korleis API-et fungerer [finst her](https://bekksjakkapi.azurewebsites.net/api/Om).
 
 ## Tankar om Azure Functions Hosting Plan
 
