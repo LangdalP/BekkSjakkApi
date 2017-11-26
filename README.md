@@ -15,8 +15,9 @@ Vertsplanen (hosting plan) bestemmer korleis Azure Functions blir køyrt. Ein ka
 - Dedicated VM: Funksjonane køyrer på ein reservert VM. VM-en køyrer konstant, og vi betalar vanleg VM-pris.
 - Consumption: Funksjonane blir køyrt på ein VM som berre køyrer når vi kallar funksjonane. Den sovnar ti minutt etter at ein funksjon har køyrt.
 
-Vi prøvar å bruke Consumption-planen først. Ulempa er at responstida er fire til ti sekund på den første førespurnaden etter at VM-en har sovna.
-Vi har to moglege work-arounds:
+Vi prøvar å bruke Consumption-planen først. Ulempa er at responstida i verste fall kan bli så høg som ti sekund på den første førespurnaden etter at VM-en har sovna, men som regel er den rundt to sekund.
+
+Om responstida viser seg å vere for høg har vi to moglege work-arounds:
 
 - Lage ein eigen funksjon som blir periodisk kalla av ein *time trigger*. Dette gjer at VM-en blir holdt våken.
 - Kalle ein funksjon i starten av eit sjakkspel. Dette våknar opp VM-en, slik at påfølgande førespurnader vil gå raskt.
